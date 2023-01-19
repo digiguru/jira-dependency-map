@@ -1,5 +1,5 @@
 export function remapTickets (columns, tickets) {
-    return tickets.map(ticket => {
+   return tickets.map(ticket => {
         const statusChange = columns.find(column => column.input.includes(ticket.status));
         if (statusChange) {
             if(typeof statusChange.output === 'object') {

@@ -1,6 +1,7 @@
-import chalk from 'chalk'
-import JiraApi from 'jira-client';
 
+import JiraApi from 'jira-client';
+import {remapTickets} from './statusMapper.mjs'
+import { parseBlockers, parseMultipleBlockers, parseBlocker } from "./parse.mjs";
 function connectJira({server, username, password}) {
   return new JiraApi({
     protocol: 'https',
@@ -34,7 +35,10 @@ export async function connect ({server, username, password, query, number}) {
 export async function remap ({server, username, password, query, number}) {
   const data = await queryJira({server, username, password, query, number});
   const map = columnMappings();
-  remapTickets(map, data);
+  const parsedTickets =  parseMultipleBlockers(data.issues);
+ 
+  const tickets = remapTickets(map, parsedTickets);
+  console.log(tickets);
 }
 /*
 curl -D- \

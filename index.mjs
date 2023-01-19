@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 import { program } from 'commander'
 import chalk from 'chalk'
-import { connect } from './jira.mjs'
+import { connect, remap } from './jira.mjs'
 program
     .command('version')
     .description('Check the version of the application')
@@ -17,7 +17,21 @@ program
     .option('-p, --password <type>', 'you api token as setup in your jira porfolio on https://id.atlassian.com/manage-profile/security/api-tokens ')
     .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
     .option('-n, --number <type>', 'Max number of issues to return', '50')
-    
     .action(connect);
+
+program
+    .command('remap')
+    .description(`Remap Jira data based on the configuration
+    Default configuration is to map as follows...
+    '#0000ff' = ['Backlog', 'Ready For Shaping', 'Ready for Development']
+    '#FFFF00' = ['Doing', 'Review', 'Testing']
+    '#00FF00' = ['Build', 'Released']
+    `)
+    .option('-s, --server <type>', 'the server to connect to')
+    .option('-u, --username <type>', 'your username - typically an email address')
+    .option('-p, --password <type>', 'you api token as setup in your jira porfolio on https://id.atlassian.com/manage-profile/security/api-tokens ')
+    .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
+    .option('-n, --number <type>', 'Max number of issues to return', '50')
+    .action(remap);
 
 program.parse()
