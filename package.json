@@ -6,7 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "jira-map": "./index.mjs"
+  },
   "keywords": [],
   "author": "Adam Hall <digiguru@gmail.com> (https://www.digiguru.co.uk/)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.0",
+    "graphviz": "^0.0.9"
+  }
 }
