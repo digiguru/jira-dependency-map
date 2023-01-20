@@ -11,27 +11,12 @@ export function parseBlocker(targetIssue) {
         'blocks': [],
         'is blocked by': [],
         'key': targetIssue.key,
-        'epic': targetIssue.fields?.customfield_11100
+        'epic': targetIssue.fields?.customfield_11100,
+        'status': targetIssue.fields?.status?.name,
+        'summary': `${targetIssue.fields?.summary || targetIssue.key} (${ targetIssue.fields?.customfield_10004 || "unestimated"})`
     };
         
     if(targetIssue && targetIssue.fields) {
-        //if(targetIssue.fields.customfield_11100) {
-        //    keys.epic = targetIssue.fields.customfield_11100;
-        //}
-        if(targetIssue.fields.status && targetIssue.fields.status.name) {
-            keys.status = targetIssue.fields.status.name;
-        }
-        
-        const storyPoints = targetIssue.fields.customfield_10004;    
-        if(targetIssue.fields.summary) {
-            keys.summary = targetIssue.fields.summary;
-            if(storyPoints) {
-                keys.summary += ` (${storyPoints})`;
-            }
-        } else if(targetIssue.fields.customfield_10004) {
-            keys.summary = `${targetIssue.key} (${storyPoints})`;
-        }
-
         if(targetIssue.fields.issuelinks) {
             targetIssue.fields.issuelinks.forEach( link => {
                 if (link.outwardIssue && link.type && link.type.name === "Blocks") {

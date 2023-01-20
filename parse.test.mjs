@@ -26,7 +26,7 @@ describe("Jira Parser", () => {
       key: "WED-3774",
       blocks: [],
       "is blocked by": [],
-      summary: "This is an example ticket"
+      summary: "This is an example ticket (unestimated)"
     });
   });
 
