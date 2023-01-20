@@ -1,3 +1,13 @@
+const keys = {
+    'blocks': [],
+    'is blocked by': [],
+    'key': `${targetIssue.key}`,
+    'grouping': `${targetIssue.fields?.parent?.fields?.summary}`,
+    //'epic': targetIssue.fields?.customfield_11100,
+    'status': `${targetIssue.fields?.status?.name}`,
+    'summary': `${targetIssue.fields?.summary || targetIssue.key} (${ targetIssue.fields?.customfield_10004 || "unestimated"})`
+};
+
 export function parseBlockers(data, key) {
     const tickets = data.length ? data : data.issues;
     const targetIssue = tickets.find( ticket => {
@@ -7,16 +17,7 @@ export function parseBlockers(data, key) {
 }
 
 export function parseBlocker(targetIssue) {
-    const keys = {
-        'blocks': [],
-        'is blocked by': [],
-        'key': targetIssue.key,
-        'grouping': targetIssue.fields?.parent?.fields?.summary,
-        //'epic': targetIssue.fields?.customfield_11100,
-        'status': `${targetIssue.fields?.status?.name}`,
-        'summary': `${targetIssue.fields?.summary || targetIssue.key} (${ targetIssue.fields?.customfield_10004 || "unestimated"})`
-    };
-        
+
     if(targetIssue && targetIssue.fields) {
         if(targetIssue.fields.issuelinks) {
             targetIssue.fields.issuelinks.forEach( link => {
