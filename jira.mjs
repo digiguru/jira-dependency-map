@@ -50,19 +50,21 @@ async function queryJira({server, username, password, query, number}) {
   return data;
 }
 async function parseJira ({server, username, password, query, number, map}) {
-  const colmap = columnMappings();
   const data = await queryJira({server, username, password, query, number});
   let settings = {};
 
   for (const property in map) {
     settings[property] = {
       value: map[property].value || map[property],
-      default: map[property]?.default
+      default: map[property]?.default || null,
+      remap: map[property]?.remap
     };
   }
+  console.log("settings", settings)
   
   const parsedTickets =  parseMultipleBlockers(data.issues, settings);
- 
+  const colmap = {...columnMappings(), ... settings?.status?.remap};
+
   const tickets = remapTickets(colmap, parsedTickets);
   return tickets;
 }
