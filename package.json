@@ -13,7 +13,6 @@
   "author": "Adam Hall <digiguru@gmail.com> (https://www.digiguru.co.uk/)",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "graphviz": "^0.0.9",
     "jira-client": "^8.2.2"
