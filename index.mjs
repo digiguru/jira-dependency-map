@@ -1,14 +1,51 @@
 #! /usr/bin/env node
 import { program } from 'commander'
-import chalk from 'chalk'
-import { connect, remap } from './jira.mjs'
+
+import { connect, remap, dot } from './jira.mjs'
 program
     .command('version')
     .description('Check the version of the application')
     .action(() => {
-        console.log(chalk.red.bold('Welcome. Running version 0.1.0'))
+        console.log('Welcome. Running version 0.1.0')
     });
 
+const jiraCommand = (name, description, action) => {
+    return new program.Command(name)
+        .description(description)
+        .option('-s, --server <type>', 'the server to connect to')
+        .option('-u, --username <type>', 'your username - typically an email address')
+        .option('-p, --password <type>', 'you api token as setup in your jira porfolio on https://id.atlassian.com/manage-profile/security/api-tokens ')
+        .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
+        .option('-n, --number <type>', 'Max number of issues to return', '50')
+        .action(action)
+}
+
+program.addCommand(
+    jiraCommand(
+        'connect',
+        'Connects to a remote instace using a url, username & password',
+        connect
+    )
+);
+program.addCommand(
+    jiraCommand(
+        'remap',
+        `Remap Jira data based on the configuration
+        Default configuration is to map as follows...
+        '#0000ff' = ['Backlog', 'Ready For Shaping', 'Ready for Development']
+        '#FFFF00' = ['Doing', 'Review', 'Testing']
+        '#00FF00' = ['Build', 'Released']`,
+        remap
+    )
+);
+program.addCommand(
+    jiraCommand(
+        'dot',
+        'Turn a Jira query into Dot Notation showing a dependency diagram',
+        dot
+    )
+);
+/*
 program
     .command('connect')
     .description('Connects to a remote instace using a url, username & password')
@@ -18,6 +55,7 @@ program
     .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
     .option('-n, --number <type>', 'Max number of issues to return', '50')
     .action(connect);
+
 
 program
     .command('remap')
@@ -33,5 +71,18 @@ program
     .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
     .option('-n, --number <type>', 'Max number of issues to return', '50')
     .action(remap);
+
+program
+    .command('dot')
+    .description(`Turn a Jira query into Dot Notation showing a dependency diagram`)
+    .option('-s, --server <type>', 'the server to connect to')
+    .option('-u, --username <type>', 'your username - typically an email address')
+    .option('-p, --password <type>', 'you api token as setup in your jira porfolio on https://id.atlassian.com/manage-profile/security/api-tokens ')
+    .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
+    .option('-n, --number <type>', 'Max number of issues to return', '50')
+    .action(dot);
+*/
+
+
 
 program.parse()
