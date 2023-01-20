@@ -125,10 +125,10 @@ function toDotLinesNoDependencies(inputItems) {
 }
 function toDotExtraInfo(input) {
     const text = removeDashes(input.key);
-    if(input.summary || input.colour) {
+    if(input.title || input.colour) {
         let lines = [];
         lines.push(`${text} [\n`);
-        if(input.summary) lines.push(`label="${input.summary}"\n`);
+        if(input.title) lines.push(`label="${input.title}"\n`);
         if(input.colour) lines.push(`color="${input.colour}"\n`);
         lines.push(`];\n`);
         return lines.join("");
@@ -136,7 +136,7 @@ function toDotExtraInfo(input) {
 }
 function toDotLineNoDependencies(input) {
     const text = removeDashes(input.key);
-    if(input.summary || input.colour) {
+    if(input.title || input.colour) {
         return `{\n ${toDotExtraInfo(input)}\n}\n`;
     } else {
         return `  ${text};\n`;

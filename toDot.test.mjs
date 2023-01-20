@@ -45,10 +45,10 @@ describe('Dot notation generator', () => {
       ));
   });
 
-  it('Single Item With Summary', () => {
+  it('Single Item With title', () => {
     const input = {
       'key': 'WED-3774',
-      'summary': "Example label"
+      'title': "Example label"
     };
     
     expect(ignoreWhiteSpace(toDot(input)))
@@ -190,11 +190,11 @@ describe('Dot notation generator', () => {
   })
 
    
-  it('It keeps a summary if it blocks something', () => {
+  it('It keeps a title if it blocks something', () => {
     const input = [{
         blocks: [ 'WED-1122' ],
         key: 'WED-5454',
-        summary: 'Content Migration',
+        title: 'Content Migration',
       }];
   expect(ignoreWhiteSpace(toDot(input)))
     .to.equal(ignoreWhiteSpace(

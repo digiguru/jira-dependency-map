@@ -11,11 +11,12 @@ describe("Jira Parser", () => {
     expect(parseBlocker(data)).to.deep.include({
       key: "WED-3774",
       blocks: [],
-      "is blocked by": []
+      "is blocked by": [],
+      title: "WED-3774 (unestimated)"
     });
   });
 
-  it("Can parse a simple ticket with a summary", () => {
+  it("Can parse a simple ticket with a title", () => {
     const data = {
       key: "WED-3774",
       fields: {
@@ -26,7 +27,7 @@ describe("Jira Parser", () => {
       key: "WED-3774",
       blocks: [],
       "is blocked by": [],
-      summary: "This is an example ticket (unestimated)"
+      title: "This is an example ticket (unestimated)"
     });
   });
 
@@ -41,7 +42,7 @@ describe("Jira Parser", () => {
       key: "WED-3774",
       blocks: [],
       "is blocked by": [],
-      summary: "WED-3774 (5)"
+      title: "WED-3774 (5)"
     });
   });
 
@@ -57,7 +58,7 @@ describe("Jira Parser", () => {
       key: "WED-3774",
       blocks: [],
       "is blocked by": [],
-      summary: "This is an example ticket (5)"
+      title: "This is an example ticket (5)"
     });
   });
   //
