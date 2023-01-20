@@ -7,5 +7,6 @@ export function readSettings(path, commandLineParams) {
         const file = fs.readFileSync(path, 'utf8');
         fileParams = YAML.parse(file);
     }
-    return {...fileParams,...commandLineParams};
+    const out = {...fileParams,...commandLineParams};
+    return out;
 }

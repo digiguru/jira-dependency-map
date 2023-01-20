@@ -14,13 +14,13 @@ export function parseBlockers(data, key) {
     });
     return parseBlocker(targetIssue);
 }
-const lookup = {
+let lookup = {
     key: {value:"key"},
     additional: {value:"fields.customfield_10004", default: "unestimated"},
     text: {value:"fields.summary"},
     status: {value:"fields.status.name"},
-    //grouping: {value:"fields.parent.fields.summary"}
-    grouping: {value:"fields.customfield_10800.title"}
+    grouping: {value:"fields.parent.fields.summary"}
+    //grouping: {value:"fields.customfield_10800.title"}
     //{value:"fields.customfield_10800.title"}//{value:"fields.parent.fields.summary"}
 }
 export function parseBlocker(targetIssue) {
@@ -31,8 +31,8 @@ export function parseBlocker(targetIssue) {
         'blocks': [],
         'is blocked by': [],
         'key': key,
-        'grouping': resolvePath(targetIssue, lookup.grouping.value),
-        'status': resolvePath(targetIssue, lookup.status.value),
+        'grouping': resolvePath(targetIssue, lookup.grouping.value) || lookup.grouping.default,
+        'status': resolvePath(targetIssue, lookup.status.value) || lookup.status.default,
         'title': text + (additional ? ` (${additional})` : ""),
     }
     if(targetIssue && targetIssue.fields) {
@@ -50,7 +50,8 @@ export function parseBlocker(targetIssue) {
     }
     return keys;
 }
-export function parseMultipleBlockers(data) {
+export function parseMultipleBlockers(data, settings) {
+    lookup = { ... lookup, ... settings}
     const tickets = data.length ? data : data.issues;
     return tickets.map(v => {
         return parseBlocker(v);

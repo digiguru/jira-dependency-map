@@ -4,10 +4,15 @@
 query: project in ( PG, ACQ ) and (issuetype = Epic and 'Parent Link' = ITINIT-19)
 #number: 
 map:
-  key: key,
+  key: key
   additional: 
     value: fields.customfield_10004
     default: unestimated
   text: fields.summary
   status: fields.status.name
-  grouping: fields.customfield_10800.title #"fields.parent.fields.summary"
+  grouping: 
+#    value: fields.customfield_10800.title 
+#    default: unknown-team
+    value: fields.parent.fields.summary 
+    default: unknown-initiative
+
