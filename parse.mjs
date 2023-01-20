@@ -21,7 +21,7 @@ export function parseBlocker(targetIssue) {
         'is blocked by': [],
         'key': resolvePath(targetIssue, "key"),
         'grouping': resolvePath(targetIssue, "fields.parent.fields.summary"),
-        'status': `${targetIssue.fields?.status?.name}`,
+        'status': resolvePath(targetIssue,"fields.status.name"),
         'summary': `${targetIssue.fields?.summary || targetIssue.key} (${ targetIssue.fields?.customfield_10004 || "unestimated"})`
     }
     if(targetIssue && targetIssue.fields) {
