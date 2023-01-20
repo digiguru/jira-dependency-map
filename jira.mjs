@@ -60,12 +60,15 @@ async function parseJira ({server, username, password, query, number, map}) {
       remap: map[property]?.remap
     };
   }
-  console.log("settings", settings)
-  
+  let statusSettings = columnMappings();
   const parsedTickets =  parseMultipleBlockers(data.issues, settings);
-  const colmap = {...columnMappings(), ... settings?.status?.remap};
-
-  const tickets = remapTickets(colmap, parsedTickets);
+  if(Array.isArray(settings?.status?.remap)) {
+    statusSettings = settings?.status?.remap;
+  }
+  console.log("settings?.status?.remap", settings?.status?.remap)
+  console.log("colmap", statusSettings)
+  
+  const tickets = remapTickets(statusSettings, parsedTickets);
   return tickets;
 }
 
