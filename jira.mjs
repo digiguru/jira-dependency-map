@@ -12,7 +12,7 @@ export async function connect ({server, username, password, query, number}) {
 export async function raw ({server, username, password, query, number}) {
   const data = await queryJira({server, username, password, query, number});
   const issues = data.issues;
-  console.log(issues);
+  console.log(JSON.stringify(issues, null, 2));
 }
 
 export async function remap ({server, username, password, query, number}) {

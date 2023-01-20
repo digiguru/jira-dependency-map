@@ -11,8 +11,9 @@ export function parseBlocker(targetIssue) {
         'blocks': [],
         'is blocked by': [],
         'key': targetIssue.key,
-        'epic': targetIssue.fields?.customfield_11100,
-        'status': targetIssue.fields?.status?.name,
+        'grouping': targetIssue.fields?.parent?.fields?.summary,
+        //'epic': targetIssue.fields?.customfield_11100,
+        'status': `${targetIssue.fields?.status?.name}`,
         'summary': `${targetIssue.fields?.summary || targetIssue.key} (${ targetIssue.fields?.customfield_10004 || "unestimated"})`
     };
         

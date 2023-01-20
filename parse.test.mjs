@@ -83,13 +83,11 @@ describe("Jira Parser", () => {
   it("Can parse a simple ticket with an epic", () => {
     const data = {
       key: "WED-3774",
-      fields: {
-        customfield_11100: "WED-7305"
-      }
+      fields: {parent: {fields: {summary: "WED-7305"}}}
     };
     expect(parseBlocker(data)).to.deep.include({
       key: "WED-3774",
-      epic: "WED-7305",
+      grouping: "WED-7305",
       blocks: [],
       "is blocked by": []
     });
@@ -116,7 +114,7 @@ describe("Jira Parser", () => {
       key: "WED-5317",
       blocks: ["WED-7039"],
       "is blocked by": ["WED-6962", "WED-6960"],
-      epic: "WED-7305"
+      grouping: "WED-7305"
     });
     expect(parseBlockers(example, "WED-7039")).to.deep.include({
       key: "WED-7039",
