@@ -17,14 +17,15 @@ export function parseBlockers(data, key) {
 
 export function parseBlocker(targetIssue) {
     const key = resolvePath(targetIssue, "key");
-    const additional = resolvePath(targetIssue, "fields.customfield_10004");
+    const additional = resolvePath(targetIssue, "fields.customfield_10004") || "unestimated";
+    const text = resolvePath(targetIssue,"fields.summary") || key;
     const keys =  {
         'blocks': [],
         'is blocked by': [],
         'key': key,
         'grouping': resolvePath(targetIssue, "fields.parent.fields.summary"),
         'status': resolvePath(targetIssue,"fields.status.name"),
-        'title': (resolvePath(targetIssue,"fields.summary") || key) + " (" + (additional || "unestimated") + ")",
+        'title': text + (additional ? ` (${additional})` : ""),
     }
     if(targetIssue && targetIssue.fields) {
         if(targetIssue.fields.issuelinks) {
