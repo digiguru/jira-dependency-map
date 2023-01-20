@@ -39,6 +39,7 @@ describe('Dot notation generator', () => {
             WED1212 [
               color="#00ff00"
             ];
+            
           }
         }`
       ));
@@ -57,6 +58,7 @@ describe('Dot notation generator', () => {
             WED3774 [
               label="Example label"
             ];
+
           }
         }`
       ));

@@ -98,7 +98,6 @@ function toDotLinesWithEpics(inputItems) {
 }
 
 function toDotLines(inputItems) {
-    console.log(`TODOT ${inputItems}`)
     let lines = [];
     inputItems
         .forEach(input => {
@@ -135,7 +134,6 @@ function toDotExtraInfo(input) {
 }
 function toDotLineNoDependencies(input) {
     const text = removeDashes(input.key);
-    console.log(input);
     if(input.summary || input.colour) {
         return `{\n ${toDotExtraInfo(input)}\n}\n`;
     } else {
@@ -144,7 +142,6 @@ function toDotLineNoDependencies(input) {
     
 }
 function toDotLine(input) {
-    console.log(`toDotLine ${JSON.stringify(input)}`)
     let lines = [];
     
     if(input['is blocked by']) {
