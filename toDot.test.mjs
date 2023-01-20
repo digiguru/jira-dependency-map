@@ -141,10 +141,10 @@ describe('Dot notation generator', () => {
     ));  
   })
 
-  it('Single item in an epic', () => {
+  it('Single item in a grouping', () => {
     const input = {
       'key': 'WED-5317',
-      'epic': 'WED-1212'
+      'grouping': 'WED-1212'
     };
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
@@ -160,10 +160,10 @@ describe('Dot notation generator', () => {
     ));
   })
 
-  it('An empty epic (if another one already exists)', () => {
+  it('An empty grouping (if another one already exists)', () => {
     const input = [{
       'key': 'WED-5317',
-      'epic': 'WED-1212'
+      'grouping': 'WED-1212'
     },
     {
       'key': 'WED-5318'
@@ -207,16 +207,16 @@ describe('Dot notation generator', () => {
   ));
   })
 /*
- it('Can generate Dot notation format with an empty epic', () => {
+ it('Can generate Dot notation format with an empty grouping', () => {
     const input = [{
         'key': 'WED-5317',
-        'epic': 'WED-1212',
+        'grouping': 'WED-1212',
         'is blocked by': ['WED-5318','WED-5328'],
         'blocks': ['WED-5322','WED-5323']
       },
       {
         'key': 'WED-5319',
-        'epic': 'WED-1212',
+        'grouping': 'WED-1212',
         'blocks': ['WED-5320','WED-5321']
       }
     ];

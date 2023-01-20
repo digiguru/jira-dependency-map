@@ -1,5 +1,5 @@
 
-const groupings = ['epic'];
+const groupings = ['grouping'];
 export function toDot(inputItems){
     if(!inputItems.length) {
         inputItems = [inputItems];
