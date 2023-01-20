@@ -1,13 +1,15 @@
+
+const groupings = ['epic'];
 export function toDot(inputItems){
     if(!inputItems.length) {
         inputItems = [inputItems];
     }
     let text;
-    const itemsWithEpics = inputItems.find(x => x && x.epic);
+    const itemsWithGroups = inputItems.find(x => x && x[groupings[0]]);
     const itemsWithBlocks = inputItems.find(x => x['is blocked by'] || x['blocks']);
     let lines = [];
-    if(itemsWithEpics) {
-        lines = lines.concat(toDotLinesWithEpics(inputItems));
+    if(itemsWithGroups) {
+        lines = lines.concat(toDotLinesWithGroups(inputItems));
         
         if(itemsWithBlocks) {
             lines = lines.concat(toDotLines(inputItems).sort((a,b) => {
@@ -31,27 +33,27 @@ export function removeDashes(input) {
     }
     
 }
-class EpicNotation {
+class GroupNotation {
     constructor() {
         this.index = 0;
-        this.orphandEpicName = "Others";
+        this.orphandGroupName = "Others";
     }
-    toDot(epicName, listItems) {
+    toDot(groupName, listItems) {
         const lines = toDotLinesNoDependencies(listItems);
         
         return `subgraph cluster_${this.index++} {
   style=filled;
   color=lightgrey;
   node [style=filled,color=white];
-  label = "${epicName}";
+  label = "${groupName}";
 ${lines.join("")}}
 `;
     }    
 }
 
-function toDotLinesWithEpics(inputItems) {
+function toDotLinesWithGroups(inputItems) {
     let lines = [];
-    let epicNotation = new EpicNotation();
+    let groupNotation = new GroupNotation();
     
     
     let blocksStories = inputItems
@@ -67,32 +69,32 @@ function toDotLinesWithEpics(inputItems) {
     let linkedStories = [...blocksStories, ...blockedByStories];
     
     //[].splice()
-    let nonEpicStories = [];
+    let nonGroupStories = [];
     
-    let epics = inputItems.reduce(function (total, next) {
-        let epicName = next.epic || epicNotation.orphandEpicName;
-        let newItemIndex = total.findIndex(v => v.name === epicName);
+    let groups = inputItems.reduce(function (total, next) {
+        let groupName = next[groupings[0]] || groupNotation.orphandGroupName;
+        let newItemIndex = total.findIndex(v => v.name === groupName);
         if(newItemIndex === -1) {
-           total.push({name: epicName, items: [next]});
+           total.push({name: groupName, items: [next]});
         } else {
            total[newItemIndex].items.push(next);
         }
         return total;
     }, []);
-    epics.forEach( epic => {
-        let epicName = epic.name;
-        let stories = epic.items;
+    groups.forEach( group => {
+        let groupName = group.name;
+        let stories = group.items;
         let storyKeys = stories.map(x => x.key);
-        let notInEpic = linkedStories.filter(x => !storyKeys.includes(x)).map(x => { return {key:x}});
-        lines.push(epicNotation.toDot(epicName, stories));
+        let notInGroup = linkedStories.filter(x => !storyKeys.includes(x)).map(x => { return {key:x}});
+        lines.push(groupNotation.toDot(groupName, stories));
         
-        nonEpicStories = [...nonEpicStories, ...notInEpic];
+        nonGroupStories = [...nonGroupStories, ...notInGroup];
        
         
         linkedStories = linkedStories.filter(v => linkedStories.includes(v.key))
     });
-    if(nonEpicStories.length) {
-        lines.push(epicNotation.toDot(epicNotation.orphandEpicName, nonEpicStories));
+    if(nonGroupStories.length) {
+        lines.push(groupNotation.toDot(groupNotation.orphandGroupName, nonGroupStories));
     }
     return [...new Set(lines)];
 }
