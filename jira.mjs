@@ -9,6 +9,11 @@ export async function connect ({server, username, password, query, number}) {
     const issues = data.issues;
     console.log(`Query returns ${issues.length}`);
 }
+export async function raw ({server, username, password, query, number}) {
+  const data = await queryJira({server, username, password, query, number});
+  const issues = data.issues;
+  console.log(issues);
+}
 
 export async function remap ({server, username, password, query, number}) {
   const tickets = await parseJira({server, username, password, query, number});

@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 import { program } from 'commander'
 
-import { connect, remap, dot } from './jira.mjs'
+import { connect, remap, dot, raw } from './jira.mjs'
 program
     .command('version')
     .description('Check the version of the application')
@@ -25,6 +25,13 @@ program.addCommand(
         'connect',
         'Connects to a remote instace using a url, username & password',
         connect
+    )
+);
+program.addCommand(
+    jiraCommand(
+        'raw',
+        'Shows the raw output of the query',
+        raw
     )
 );
 program.addCommand(
