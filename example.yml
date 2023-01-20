@@ -1,6 +1,5 @@
 #username:
 #password:
-#site:
 query: project in ( PG, ACQ ) and (issuetype = Epic and 'Parent Link' = ITINIT-19)
 #number: 
 map:
@@ -15,4 +14,5 @@ map:
 #    default: unknown-team
     value: fields.parent.fields.summary 
     default: unknown-initiative
+
 
