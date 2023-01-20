@@ -22,7 +22,9 @@ export function toDot(inputItems){
         }));
     }
     text = lines.join("");
-    return `digraph graphname {\n${text}}`;
+    return `digraph graphname {
+        rankdir=LR
+        TBbalance="min"\n${text}}`;
 }
 
 export function removeDashes(input) {
@@ -130,6 +132,7 @@ function toDotExtraInfo(input) {
         lines.push(`${text} [\n`);
         if(input.title) lines.push(`label="${input.title}"\n`);
         if(input.colour) lines.push(`color="${input.colour}"\n`);
+        lines.push("shape=box\n")
         lines.push(`];\n`);
         return lines.join("");
     }

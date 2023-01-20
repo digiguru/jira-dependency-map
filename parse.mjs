@@ -19,7 +19,9 @@ const lookup = {
     additional: {value:"fields.customfield_10004", default: "unestimated"},
     text: {value:"fields.summary"},
     status: {value:"fields.status.name"},
-    grouping: {value:"fields.parent.fields.summary"}
+    //grouping: {value:"fields.parent.fields.summary"}
+    grouping: {value:"fields.customfield_10800.title"}
+    //{value:"fields.customfield_10800.title"}//{value:"fields.parent.fields.summary"}
 }
 export function parseBlocker(targetIssue) {
     const key = resolvePath(targetIssue, lookup.key.value);

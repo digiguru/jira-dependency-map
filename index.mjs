@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 import { program } from 'commander'
-
+import { readSettings } from './readSettings.mjs'
 import { connect, remap, dot, raw } from './jira.mjs'
 program
     .command('version')
@@ -12,12 +12,16 @@ program
 const jiraCommand = (name, description, action) => {
     return new program.Command(name)
         .description(description)
+        .argument('[pathTo.yaml]', 'path to a YAML file')
         .option('-s, --server <type>', 'the server to connect to')
         .option('-u, --username <type>', 'your username - typically an email address')
         .option('-p, --password <type>', 'you api token as setup in your jira porfolio on https://id.atlassian.com/manage-profile/security/api-tokens ')
         .option('-q, --query <type>', 'A query to pass to Jira', 'updatedDate >= -14d')
         .option('-n, --number <type>', 'Max number of issues to return', '50')
-        .action(action)
+        .action(function(filePath, settings) {
+            let allSettings = readSettings(filePath, settings)
+            action(allSettings)
+        })
 }
 
 program.addCommand(

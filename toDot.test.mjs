@@ -21,6 +21,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           WED3774;
         }`
       ));
@@ -35,9 +37,12 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           {
             WED1212 [
               color="#00ff00"
+              shape=box
             ];
             
           }
@@ -54,9 +59,12 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           {
             WED3774 [
               label="Example label"
+              shape=box
             ];
 
           }
@@ -75,6 +83,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           WED1;
           WED2;
         }`
@@ -91,6 +101,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           WED1;
           WED2;
         }`
@@ -106,6 +118,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           WED5317 -> WED7039;
         }`
     ));
@@ -121,6 +135,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           WED5317 -> WED6789;
           WED5317 -> WED7039;
         }`
@@ -135,6 +151,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
           WED6960 -> WED5317;
           WED6962 -> WED5317;
         }`
@@ -149,6 +167,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
         subgraph cluster_0 {
           style=filled;
           color=lightgrey;
@@ -171,6 +191,8 @@ describe('Dot notation generator', () => {
     expect(ignoreWhiteSpace(toDot(input)))
       .to.equal(ignoreWhiteSpace(
         `digraph graphname {
+          rankdir=LR
+          TBbalance="min"
         subgraph cluster_0 {
           style=filled;
           color=lightgrey;
@@ -199,9 +221,12 @@ describe('Dot notation generator', () => {
   expect(ignoreWhiteSpace(toDot(input)))
     .to.equal(ignoreWhiteSpace(
       `digraph graphname {
+        rankdir=LR
+        TBbalance="min"
         WED5454 -> WED1122;
         WED5454 [
             label="Content Migration"
+            shape=box
         ]; 
     }`
   ));
