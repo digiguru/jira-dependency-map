@@ -55,7 +55,6 @@ async function parseJira ({server, username, password, query, number, map}) {
   let parsedTickets =  parseMultipleBlockers(data.issues, settings);
   
   Object.keys(settings).forEach((key,i) => {
-    console.log(`key:${key} I:${i} V:${settings[key]} r:${Array.isArray(settings[key].remap)}`);
     if(Array.isArray(settings[key].remap)) {
       parsedTickets  = remapTickets(settings[key].remap, parsedTickets, key)
     }
