@@ -34,21 +34,13 @@ function connectJira({server, username, password}) {
     strictSSL: true
   });
 }
-function columnMappings() {
-  return [
-    {'input': ['Backlog', 'Ready For Shaping', 'Ready for Development'], 
-        'output': {'colour': '#0000ff'}},
-    {'input': ['Doing', 'Review', 'Testing'], 
-        'output': {'colour': '#FFFF00'}},
-    {'input': ['Build', 'Released'], 
-        'output': {'colour': '#00FF00'}}
-  ];
-}
+
 async function queryJira({server, username, password, query, number}) {
   const jira = connectJira({server, username, password, query});
   const data = await jira.searchJira(query, {maxResults: number});
   return data;
 }
+
 async function parseJira ({server, username, password, query, number, map}) {
   const data = await queryJira({server, username, password, query, number});
   let settings = {};
@@ -60,19 +52,15 @@ async function parseJira ({server, username, password, query, number, map}) {
       remap: map[property]?.remap
     };
   }
-  let statusSettings = columnMappings();
-  const parsedTickets =  parseMultipleBlockers(data.issues, settings);
-  if(Array.isArray(settings?.status?.remap)) {
-    statusSettings = settings?.status?.remap;
-  }
+  let parsedTickets =  parseMultipleBlockers(data.issues, settings);
+  
   Object.keys(settings).forEach((key,i) => {
     console.log(`key:${key} I:${i} V:${settings[key]} r:${Array.isArray(settings[key].remap)}`);
     if(Array.isArray(settings[key].remap)) {
-      parsedTickets  = remapTickets(statusSettings, parsedTickets, key)
+      parsedTickets  = remapTickets(settings[key].remap, parsedTickets, key)
     }
   })
-  const tickets = remapTickets(statusSettings, parsedTickets, 'status');
-  return tickets;
+  return parsedTickets;
 }
 
 /*
