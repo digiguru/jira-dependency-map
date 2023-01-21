@@ -1,16 +1,16 @@
-export function remapTickets (columns, tickets) {
+export function remapTickets (columns, tickets, keyName) {
    return tickets.map(ticket => {
-        const statusChange = columns.find(column => column.input.includes(ticket.status));
-        if (statusChange) {
-            if(typeof statusChange.output === 'object') {
+        const change = columns.find(column => column.input.includes(ticket[keyName]));
+        if (change) {
+            if(typeof change.output === 'object') {
                 return {
                     ...ticket,
-                    ...statusChange.output
+                    ...change.output
                 }
             } else {
                 return {
                     ...ticket,
-                    status: statusChange.output
+                    [keyName]: change.output
                 }
             }
         } else {

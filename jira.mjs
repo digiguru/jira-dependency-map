@@ -65,8 +65,6 @@ async function parseJira ({server, username, password, query, number, map}) {
   if(Array.isArray(settings?.status?.remap)) {
     statusSettings = settings?.status?.remap;
   }
-  console.log("settings?.status?.remap", settings?.status?.remap)
-  console.log("colmap", statusSettings)
   
   const tickets = remapTickets(statusSettings, parsedTickets);
   return tickets;
