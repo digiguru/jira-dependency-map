@@ -1,6 +1,6 @@
 
 import JiraApi from 'jira-client';
-import {remapTickets} from './statusMapper.mjs'
+import {remapTickets} from './remapper.mjs'
 import { parseMultipleBlockers } from "./parse.mjs";
 import {toDot} from './toDot.mjs';
 
@@ -65,8 +65,13 @@ async function parseJira ({server, username, password, query, number, map}) {
   if(Array.isArray(settings?.status?.remap)) {
     statusSettings = settings?.status?.remap;
   }
-  
-  const tickets = remapTickets(statusSettings, parsedTickets);
+  Object.keys(settings).forEach((key,i) => {
+    console.log(`key:${key} I:${i} V:${settings[key]} r:${Array.isArray(settings[key].remap)}`);
+    if(Array.isArray(settings[key].remap)) {
+      parsedTickets  = remapTickets(statusSettings, parsedTickets, key)
+    }
+  })
+  const tickets = remapTickets(statusSettings, parsedTickets, 'status');
   return tickets;
 }
 
