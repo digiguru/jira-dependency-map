@@ -1,5 +1,6 @@
 #username:
 #password:
+#server: 
 query: project in ( PG, ACQ ) and (issuetype = Epic and 'Parent Link' = ITINIT-19)
 #number: 
 map:
@@ -8,11 +9,26 @@ map:
     value: fields.customfield_10004
     default: unestimated
   text: fields.summary
-  status: fields.status.name
+  status: 
+    value: fields.status.name
+    remap:
+      - input: [Backlog,Ready For Shaping,Ready for Development]
+        output: 
+          colour: "#cc00ff"
+      - input: [Doing,Review,Testing] 
+        output:
+          colour: "#FFFF00"
+      - input: [Build,Released]
+        output:
+          colour: "#00FF00"
   grouping: 
 #    value: fields.customfield_10800.title 
 #    default: unknown-team
     value: fields.parent.fields.summary 
     default: unknown-initiative
+    remap:
+      - input: Microsite Feature Parity with UK
+        output: 
+          grouping: Feature Parity
 
 
