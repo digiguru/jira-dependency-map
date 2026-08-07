@@ -17,4 +17,17 @@ export default [
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
+  {
+    files: ["**/*.test.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        describe: "readonly",
+        it: "readonly",
+        before: "readonly",
+        after: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+      },
+    },
+  },
 ];
