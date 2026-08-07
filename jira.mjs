@@ -1,47 +1,37 @@
+import dotenv from 'dotenv';
+import { queryJira } from './queryJira.mjs';
+import { parseMultipleBlockers } from './parse.mjs';
+import { remapTickets } from './remapper.mjs';
 
-import JiraApi from 'jira-client';
-import {remapTickets} from './remapper.mjs'
-import { parseMultipleBlockers } from "./parse.mjs";
-import {toDot} from './toDot.mjs';
+dotenv.config();
 
-export async function connect (args) {
-    const data = await queryJira(args);
-    const issues = data.issues;
-    console.log(`Query returns ${issues.length}`);
-}
-export async function raw (args) {
-  const data = await queryJira(args);
-  const issues = data.issues;
-  console.log(JSON.stringify(issues, null, 2));
-}
+const {
+  JIRA_SERVER: server,
+  JIRA_USERNAME: username,
+  JIRA_PASSWORD: password,
+  JIRA_QUERY: query,
+  JIRA_NUMBER: number,
+} = process.env;
 
-export async function remap (args) {
-  const tickets = await parseJira(args);
-  console.log(tickets);
-}
-export async function dot (args) {
-  const tickets = await parseJira(args);
-  const dot = toDot(tickets);
-  console.log(dot)
-}
-function connectJira({server, username, password}) {
-  return new JiraApi({
-    protocol: 'https',
-    host: server,
-    username: username,
-    password: password,
-    apiVersion: '3',
-    strictSSL: true
-  });
-}
+const map = {
+  blockers: {
+    value: 'fields.customfield_10000',
+    default: [],
+  },
+  key: 'key',
+  summary: 'fields.summary',
+  status: 'fields.status.name',
+  type: 'fields.issuetype.name',
+};
 
-async function queryJira({server, username, password, query, number}) {
-  const jira = connectJira({server, username, password, query});
-  const data = await jira.searchJira(query, {maxResults: number});
-  return data;
-}
-
-async function parseJira ({server, username, password, query, number, map}) {
+export async function getJiraDependencies({
+  server,
+  username,
+  password,
+  query,
+  number,
+  map,
+}) {
   const data = await queryJira({server, username, password, query, number});
   let settings = {};
 
@@ -54,7 +44,7 @@ async function parseJira ({server, username, password, query, number, map}) {
   }
   let parsedTickets =  parseMultipleBlockers(data.issues, settings);
   
-  Object.keys(settings).forEach((key,i) => {
+  Object.keys(settings).forEach((key) => {
     if(Array.isArray(settings[key].remap)) {
       parsedTickets  = remapTickets(settings[key].remap, parsedTickets, key)
     }
@@ -68,4 +58,15 @@ curl -D- \
    -X GET \
    -H "Content-Type: application/json" \
    https://your-domain.atlassian.net/rest/api/2/issue/createmeta
-   */
+*/
+
+if (process.argv[1] === new URL(import.meta.url).pathname) {
+  getJiraDependencies({
+    server,
+    username,
+    password,
+    query,
+    number,
+    map,
+  }).then(console.log);
+}
