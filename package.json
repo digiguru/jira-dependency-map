@@ -9,7 +9,7 @@
   "scripts": {
     "build": "node --check index.mjs",
     "lint": "npx --yes eslint@10 .",
-    "test": "mocha *.test.mjs"
+    "test": "node --test *.test.mjs"
   },
   "bin": {
     "jira-map": "./index.mjs"
@@ -20,11 +20,9 @@
   "dependencies": {
     "commander": "^15.0.0",
     "graphviz": "^0.0.9",
-    "jira-client": "^8.2.2",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
-    "chai": "^6.2.2",
-    "mocha": "^11.8.0"
+    "chai": "^6.2.2"
   }
 }
