@@ -1,5 +1,6 @@
 
 import {remapTickets} from './remapper.mjs';
+import { describe, it } from 'node:test';
 import {expect} from 'chai';
 
 describe('Status Mapper', () => {

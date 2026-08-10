@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-import { program } from 'commander'
+import { Command, program } from 'commander'
 import { readSettings } from './readSettings.mjs'
 import { connect, remap, dot, raw } from './jira.mjs'
 program
@@ -10,7 +10,7 @@ program
     });
 
 const jiraCommand = (name, description, action) => {
-    return new program.Command(name)
+    return new Command(name)
         .description(description)
         .argument('[pathTo.yaml]', 'path to a YAML file')
         .option('-s, --server <type>', 'the server to connect to')

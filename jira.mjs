@@ -1,5 +1,3 @@
-
-import JiraApi from 'jira-client';
 import {remapTickets} from './remapper.mjs'
 import { parseMultipleBlockers } from "./parse.mjs";
 import {toDot} from './toDot.mjs';
@@ -24,20 +22,44 @@ export async function dot (args) {
   const dot = toDot(tickets);
   console.log(dot)
 }
-function connectJira({server, username, password}) {
-  return new JiraApi({
-    protocol: 'https',
-    host: server,
-    username: username,
-    password: password,
-    apiVersion: '3',
-    strictSSL: true
-  });
+function getMaxResults(number) {
+  const maxResults = Number(number);
+  if (!Number.isSafeInteger(maxResults) || maxResults < 1) {
+    throw new Error('The number of results must be a positive integer.');
+  }
+  return maxResults;
 }
 
-async function queryJira({server, username, password, query, number}) {
-  const jira = connectJira({server, username, password, query});
-  const data = await jira.searchJira(query, {maxResults: number});
+function getSearchUrl(server) {
+  const baseUrl = new URL(server.includes('://') ? server : `https://${server}`);
+  if (baseUrl.protocol !== 'https:') {
+    throw new Error('The Jira server URL must use HTTPS.');
+  }
+  return new URL('/rest/api/3/search/jql', baseUrl);
+}
+
+export async function queryJira({server, username, password, query, number}, fetchImpl = fetch) {
+  const response = await fetchImpl(getSearchUrl(server), {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${Buffer.from(`${username}:${password}`, 'utf8').toString('base64')}`
+    },
+    body: JSON.stringify({
+      jql: query,
+      maxResults: getMaxResults(number)
+    })
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    const message = Array.isArray(data.errorMessages)
+      ? data.errorMessages.join('; ')
+      : data.message;
+    throw new Error(`Jira search failed (${response.status} ${response.statusText}): ${message || 'No error details returned'}`);
+  }
+
   return data;
 }
 

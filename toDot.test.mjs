@@ -1,4 +1,5 @@
 import {toDot, removeDashes} from './toDot.mjs';
+import { describe, it } from 'node:test';
 import {expect} from 'chai';
 
 function ignoreWhiteSpace(string) {
