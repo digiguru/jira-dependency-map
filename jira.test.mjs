@@ -11,7 +11,7 @@ describe('Jira API client', () => {
       {
         server: 'example.atlassian.net',
         username: 'person@example.com',
-        password: 'api-token',
+        password: 'fixture-password',
         query: 'project = DEMO',
         number: '25'
       },
@@ -30,7 +30,7 @@ describe('Jira API client', () => {
     expect(request.options.headers).to.deep.include({
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: 'Basic cGVyc29uQGV4YW1wbGUuY29tOmFwaS10b2tlbg=='
+      Authorization: `Basic ${Buffer.from('person@example.com:fixture-password', 'utf8').toString('base64')}`
     });
     expect(JSON.parse(request.options.body)).to.deep.equal({
       jql: 'project = DEMO',
@@ -46,7 +46,7 @@ describe('Jira API client', () => {
         {
           server: 'example.atlassian.net',
           username: 'person@example.com',
-          password: 'api-token',
+          password: 'fixture-password',
           query: 'project = DEMO',
           number: '25'
         },
