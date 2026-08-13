@@ -1,7 +1,7 @@
 {
   "name": "jira-dependency-map",
   "version": "0.1.0",
-  "description": "",
+  "description": "CLI for querying Jira and generating configurable dependency maps and Graphviz DOT output.",
   "main": "index.js",
   "engines": {
     "node": "24.x"
