@@ -7,8 +7,9 @@
     "node": "24.x"
   },
   "scripts": {
-    "build": "node --check index.mjs",
+    "build": "node scripts/build-static.mjs && node --check index.mjs",
     "lint": "npx --yes eslint@10 .",
+    "smoke": "node scripts/smoke-static.mjs",
     "test": "node --test *.test.mjs"
   },
   "bin": {
@@ -18,6 +19,7 @@
   "author": "Adam Hall <digiguru@gmail.com> (https://www.digiguru.co.uk/)",
   "license": "MIT",
   "dependencies": {
+    "@viz-js/viz": "^3.28.0",
     "commander": "^15.0.0",
     "graphviz": "^0.0.9",
     "yaml": "^2.9.0"

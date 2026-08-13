@@ -1,6 +1,6 @@
 export default [
   {
-    ignores: ["node_modules/**", "coverage/**"],
+    ignores: ["node_modules/**", "coverage/**", "dist/**"],
   },
   {
     files: ["**/*.{js,mjs,cjs}"],
@@ -18,6 +18,15 @@ export default [
     rules: {
       "no-undef": "error",
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["public/**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        document: "readonly",
+        navigator: "readonly",
+      },
     },
   },
   {

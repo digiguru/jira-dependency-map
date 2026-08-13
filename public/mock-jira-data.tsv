@@ -1,0 +1,6 @@
+Key	Summary	Status	Story Points	Group	Blocks	Blocked By
+DEMO-101	Create customer profile API	Doing	5	Platform	DEMO-103	
+DEMO-102	Design customer profile screen	Ready for Development	3	Web	DEMO-104	
+DEMO-103	Expose profile data to web	Testing	8	Platform	DEMO-104	DEMO-101
+DEMO-104	Release customer profile	Backlog	2	Release		DEMO-102, DEMO-103
+DEMO-105	Document support process	Released	1	Operations		
